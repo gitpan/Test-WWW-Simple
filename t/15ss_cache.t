@@ -1,3 +1,4 @@
+#!/usr/local/bin/perl
 use Test::More;
 
 eval "require HTTP::Daemon";
@@ -5,7 +6,7 @@ if( $@ ) {
     plan skip_all => 'HTTP::Daemon unavailable';
 }
 else {
-    plan tests => 9;
+    plan tests => 1;
 }
 
 use Test::WWW::Simple;
@@ -13,6 +14,7 @@ use Test::WWW::Simple;
 $SIG{PIPE} = sub {};
 
 my $pid = fork;
+
 if ($pid == 0) {
   my @values = qw(aaaaa bbbbb ccccc ddddd eeeee fffff ggggg);
   my $index = 0;
@@ -32,21 +34,20 @@ else {
   diag "Waiting for test webserver to spin up";
   sleep 5;
   # actual tests go here
-  no_cache;
-  page_like('http://localhost:9980', qr/aaaaa/, 'initial value as expected');
-  page_like('http://localhost:9980', qr/bbbbb/, 'reaccessed as expected');
-  cache;
-  page_like('http://perl.org', qr/perl/i,   'intervening page');
-  page_like('http://localhost:9980', qr/bbbbb/, 'cached from last get');
-  page_like('http://localhost:9980', qr/bbbbb/, 'remains cached');
-  no_cache;
-  page_like('http://localhost:9980', qr/ccccc/, 'reaccessed again as expected');
-  page_like('http://perl.org', qr/perl/i,   'intervening page');
-  cache;
-  page_like('http://localhost:9980', qr/ccccc/, 'return to last cached value');
-  no_cache;
-  page_like('http://localhost:9980', qr/ddddd/, 'now a new value');
-  
+  @output = `perl -Iblib/lib examples/simple_scan<examples/ss_cache.in`;
+  @expected = map {"$_\n"} split /\n/,<<EOF;
+1..7
+ok 1 - initial value OK [http://localhost:9980/]
+ok 2 - reaccessed as expected [http://localhost:9980/]
+ok 3 - cached from last get [http://localhost:9980/]
+ok 4 - still cached [http://localhost:9980/]
+ok 5 - reaccessed as expected [http://localhost:9980/]
+ok 6 - return to last cached value [http://localhost:9980/]
+ok 7 - now a new value [http://localhost:9980/]
+EOF
+  is_deeply(\@output, \@expected, "working output as expected");
+
+  # shut down webserver
   diag "Shutting down test webserver";
   kill 9,$pid;
 }
