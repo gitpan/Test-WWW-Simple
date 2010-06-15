@@ -2,8 +2,15 @@
 use Test::More;
 plan tests => 1;
 
+# Force IPv6 to be off before we load Mojo; that way the constant sub in 
+# Mojo::IOLoop will compile with it off rather than ignore it altogether.
+BEGIN {
+  $ENV{MOJO_NO_IPV6} = 1;
+}
+
 use Test::WWW::Simple;
 use Mojolicious::Lite;
+
 
 $SIG{PIPE} = sub {};
 $ENV{MOJO_LOG_LEVEL} = 'error';

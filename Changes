@@ -1,5 +1,8 @@
 Revision history for Perl extension Test::WWW::Simple.
 
+0.30   Tue Jun 15 11:45:38 PDT 2010
+	- Actually add Mojo to the prereqs ... d'oh.
+
 0.29   Fri May 21 17:03:55 PDT 2010
 	- Fix numerous failing tests.
 	- Make sure all tests are in the MANIFEST.
