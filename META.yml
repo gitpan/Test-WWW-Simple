@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Test-WWW-Simple
-version:            0.32
+version:            0.33
 abstract:           Test Web applications using TAP
 author:
     - Joe McMahon <mcmahon@cpan.org>
@@ -11,6 +11,7 @@ configure_requires:
 build_requires:
     ExtUtils::MakeMaker:  0
 requires:
+    HTML::Parser:         0
     HTML::Tree:           0
     Mojolicious::Lite:    0
     Regexp::Common:       0
@@ -23,7 +24,7 @@ no_index:
     directory:
         - t
         - inc
-generated_by:       ExtUtils::MakeMaker version 6.56
+generated_by:       ExtUtils::MakeMaker version 6.55_02
 meta-spec:
     url:      http://module-build.sourceforge.net/META-spec-v1.4.html
     version:  1.4

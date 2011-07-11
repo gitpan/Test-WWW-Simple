@@ -1,4 +1,7 @@
 Revision history for Perl extension Test::WWW::Simple.
+0.33   Mon Jul 11 12:53:17 PDT 2011
+	- added Makefile.PL check for installations with bad HTML/Parser.so
+
 0.32   Sun Jul  3 13:30:16 PDT 2011
 	- Fix regex-to-regex matches that are inconsistent across Perl versions
 
