@@ -18,7 +18,6 @@ my $parms =
                           'Test::LongString' => 0,
                           'Test::Tester' => 0,
                           'HTML::Tree' => 0,
-                          'HTML::Parser' => 0,
                           'WWW::Mechanize' => 0,
                           'WWW::Mechanize::Pluggable' => 1.07,
                           'Regexp::Common' => 0,
